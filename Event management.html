@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>College Event Management System</title>
+  <style>
+    :root {
+      --primary-blue: #1a4b8c;
+      --accent-gold: #ffc107;
+      --secondary-blue: #2c73d2;
+      --light-blue: #e8f4ff;
+      --dark-blue: #0a2a5a;
+      --success-green: #28a745;
+      --danger-red: #dc3545;
+      --light-gray: #f8f9fa;
+      --text-dark: #212529;
+      --text-light: #6c757d;
+      --accent-orange: #ff9800;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin:0; 
+      background: var(--light-blue); 
+      color: var(--text-dark); 
+      line-height: 1.6;
+    }
+    
+    button { 
+      cursor:pointer; 
+      transition: all 0.3s ease;
+    }
+    
+    /* LOGIN */
+    #loginPage { 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      height:100vh; 
+      background: linear-gradient(rgba(26, 75, 140, 0.8), rgba(26, 75, 140, 0.9)), url("https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80") center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #loginPage::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+      animation: float 20s infinite linear;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50px, -50px); }
+    }
+    
+    .login-container { 
+      background: rgba(255, 255, 255, 0.95); 
+      padding: 32px; 
+      border-radius: 16px; 
+      width: 400px; 
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
+      text-align:center; 
+      position: relative;
+      z-index: 1;
+      border-top: 5px solid var(--accent-gold);
+    }
+    
+    .login-container h2 {
+      color: var(--primary-blue);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+    
+    .login-container input, .login-container select { 
+      width:100%; 
+      padding:12px 16px; 
+      margin:10px 0; 
+      border-radius:8px; 
+      border: 1px solid #ddd; 
+      box-sizing:border-box; 
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .login-container input:focus, .login-container select:focus {
+      border-color: var(--secondary-blue);
+      box-shadow: 0 0 0 3px rgba(44, 115, 210, 0.2);
+      outline: none;
+    }
+    
+    .login-container button { 
+      width:100%; 
+      padding:14px; 
+      background: var(--primary-blue); 
+      color:#fff; 
+      border:none; 
+      border-radius:8px; 
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .login-container button:hover {
+      background: var(--dark-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* NAV */
+    nav { 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      background: var(--primary-blue); 
+      padding: 16px 24px; 
+      color:#fff; 
+      position:sticky; 
+      top:0; 
+      z-index:10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    nav .logo { 
+      font-weight:700; 
+      font-size:24px; 
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    nav .logo::before {
+      content: "🎓";
+    }
+    
+    nav ul { 
+      display:flex; 
+      list-style:none; 
+      gap:20px; 
+      margin:0; 
+      padding:0; 
+      align-items:center; 
+    }
+    
+    nav a, nav button { 
+      color:#fff; 
+      background:none; 
+      border:none; 
+      text-decoration:none; 
+      font-size:16px; 
+      padding:8px 16px; 
+      cursor:pointer;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover, nav button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* HERO & SECTIONS */
+    .hero { 
+      height:650px; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      flex-direction:column; 
+      color:#fff; 
+      text-align:center; 
+      background: linear-gradient(rgba(26, 75, 140, 0.7), rgba(26, 75, 140, 0.8)), url("https://daijiworld.ap-south-1.linodeobjects.com/Linode/images3/shettytrust14122024_1.jpg") center/cover no-repeat;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(to bottom, transparent, var(--light-blue));
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 760px;
+      margin-bottom: 24px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    section { 
+      padding:40px 24px; 
+      max-width:1200px; 
+      margin:0 auto; 
+    }
+    
+    section h2 {
+      color: var(--primary-blue);
+      font-size: 2rem;
+      margin-bottom: 24px;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    
+    section h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: var(--accent-gold);
+      border-radius: 2px;
+    }
+
+    /* EVENTS */
+    .event-list { 
+      display:flex; 
+      gap:24px; 
+      flex-wrap:wrap; 
+      justify-content:center; 
+    }
+    
+    .event-card { 
+      width:300px; 
+      background:#fff; 
+      border-radius:12px; 
+      box-shadow:0 8px 20px rgba(0,0,0,0.08); 
+      overflow:hidden; 
+      text-align:left;
+      transition: all 0.3s ease;
+      border-top: 4px solid var(--secondary-blue);
+    }
+    
+    .event-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-card img { 
+      width:100%; 
+      height:180px; 
+      object-fit:cover; 
+      display:block; 
+    }
+    
+    .event-card .card-body { 
+      padding:20px; 
+    }
+    
+    .event-card h3 { 
+      margin:0 0 12px 0; 
+      font-size:20px; 
+      color: var(--primary-blue); 
+      font-weight: 600;
+    }
+    
+    .event-card p { 
+      margin:8px 0; 
+      color: var(--text-light); 
+      font-size:15px; 
+    }
+    
+    .event-card .card-actions { 
+      padding:16px; 
+      text-align:center; 
+      background: var(--light-gray); 
+      border-top: 1px solid #eee;
+    }
+
+    /* SLOT INDICATOR */
+    .slot-indicator {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    
+    .slot-bar {
+      flex: 1;
+      height: 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 0 10px;
+    }
+    
+    .slot-fill {
+      height: 100%;
+      background-color: var(--success-green);
+      transition: width 0.3s ease;
+    }
+    
+    .slot-fill.warning {
+      background-color: var(--accent-orange);
+    }
+    
+    .slot-fill.danger {
+      background-color: var(--danger-red);
+    }
+    
+    .slot-text {
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    /* ADMIN LIST (minimized thumbnails) */
+    .admin-item { 
+      display:flex; 
+      gap:16px; 
+      align-items:center; 
+      background:#fff; 
+      padding:16px; 
+      border-radius:10px; 
+      box-shadow:0 4px 12px rgba(0,0,0,0.06); 
+      margin-bottom:16px;
+      border-left: 4px solid var(--secondary-blue);
+    }
+    
+    .admin-item img { 
+      width:100px; 
+      height:70px; 
+      object-fit:cover; 
+      border-radius:8px; 
+      border:1px solid #eee; 
+    }
+
+    /* FORMS */
+    input[type="text"], input[type="email"], input[type="date"], input[type="time"], input[type="number"], textarea, input[type="file"] {
+      padding:12px 16px; 
+      margin:10px 0; 
+      border:1px solid #ddd; 
+      border-radius:8px; 
+      width:100%; 
+      box-sizing:border-box;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    input[type="text"]:focus, input[type="email"]:focus, input[type="date"]:focus, 
+    input[type="time"]:focus, input[type="number"]:focus, textarea:focus {
+      border-color: var(--secondary-blue);
+      box-shadow: 0 0 0 3px rgba(44, 115, 210, 0.2);
+      outline: none;
+    }
+    
+    textarea { 
+      resize:vertical; 
+      min-height: 120px;
+    }
+    
+    .btn { 
+      padding:12px 24px; 
+      border-radius:8px; 
+      border:none; 
+      background: var(--primary-blue); 
+      color:#fff; 
+      cursor:pointer; 
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: var(--dark-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-success {
+      background: var(--success-green);
+    }
+    
+    .btn-success:hover {
+      background: #218838;
+    }
+    
+    .btn-danger {
+      background: var(--danger-red);
+    }
+    
+    .btn-danger:hover {
+      background: #c82333;
+    }
+    
+    .btn-orange {
+      background: var(--accent-orange);
+    }
+    
+    .btn-orange:hover {
+      background: #e68900;
+    }
+    
+    .btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .small { 
+      font-size:14px; 
+      color: var(--text-light); 
+      margin-top:8px; 
+    }
+    
+    #previewImg { 
+      max-width:200px; 
+      border-radius:10px; 
+      display:none; 
+      margin-top:12px; 
+      border:2px solid #ddd; 
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--primary-blue);
+    }
+
+    /* TABLE STYLES */
+    .registrations-table { 
+      width:100%; 
+      border-collapse:collapse; 
+      margin-top:20px; 
+      background:#fff; 
+      border-radius:8px; 
+      overflow:hidden; 
+      box-shadow:0 4px 12px rgba(0,0,0,0.08); 
+    }
+    
+    .registrations-table th { 
+      background: var(--primary-blue); 
+      color:#fff; 
+      padding:12px 15px; 
+      text-align:left; 
+      font-weight:600; 
+    }
+    
+    .registrations-table td { 
+      padding:10px 15px; 
+      border-bottom:1px solid #eee; 
+    }
+    
+    .registrations-table tr:last-child td { 
+      border-bottom:none; 
+    }
+    
+    .registrations-table tr:hover { 
+      background:#f9f9f9; 
+    }
+    
+    .no-data { 
+      text-align:center; 
+      padding:20px; 
+      color:#666; 
+    }
+
+    /* FEEDBACK STYLES */
+    .feedback-item { 
+      background:#fff; 
+      padding:20px; 
+      border-radius:10px; 
+      box-shadow:0 4px 12px rgba(0,0,0,0.06); 
+      margin-bottom:16px;
+      border-left: 4px solid var(--accent-gold);
+    }
+    
+    .feedback-item h4 { 
+      margin:0 0 8px 0; 
+      color: var(--primary-blue); 
+    }
+    
+    .feedback-item p { 
+      margin:8px 0; 
+      color: var(--text-light); 
+    }
+    
+    .feedback-meta { 
+      font-size:13px; 
+      color:#888; 
+      margin-top:12px; 
+    }
+    
+    .feedback-rating { 
+      color:#ff9800; 
+      margin:8px 0; 
+    }
+    
+    .star { 
+      color:#ddd; 
+      font-size: 18px;
+      cursor: pointer;
+    }
+    
+    .star.filled { 
+      color:#ff9800; 
+    }
+
+    /* CONTACT STYLES */
+    .contact-info { 
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:20px; 
+      margin-top:20px; 
+    }
+    
+    .contact-card { 
+      flex:1; 
+      min-width:250px; 
+      background:#fff; 
+      padding:24px; 
+      border-radius:10px; 
+      box-shadow:0 4px 12px rgba(0,0,0,0.06); 
+      border-top: 4px solid var(--secondary-blue);
+    }
+    
+    .contact-card h3 { 
+      margin-top:0; 
+      color: var(--primary-blue); 
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    .contact-card p { 
+      margin:10px 0; 
+    }
+    
+    .contact-map { 
+      margin-top:20px; 
+      width:100%; 
+      height:300px; 
+      background:#e9e9e9; 
+      border-radius:10px; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      color:#666; 
+      box-shadow:0 4px 12px rgba(0,0,0,0.06);
+      border: 1px solid #ddd;
+    }
+
+    @media (max-width:700px){ 
+      .event-list { 
+        flex-direction:column; 
+        align-items:center; 
+      } 
+      
+      nav ul {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .admin-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .registrations-table { 
+        font-size:14px; 
+      }
+      
+      .registrations-table th, .registrations-table td { 
+        padding:8px 10px; 
+      }
+      
+      .contact-info { 
+        flex-direction:column; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginPage">
+    <div class="login-container" role="region" aria-label="Login">
+      <h2>College Event Portal</h2>
+
+      <div class="form-group">
+        <label class="small">Login as</label>
+        <select id="roleSelect" aria-label="Login role">
+          <option value="student">Student</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input id="username" type="text" placeholder="Username (any for student / admin@gmail.com for admin)" autocomplete="username" />
+      </div>
+      
+      <div class="form-group">
+        <input id="password" type="password" placeholder="Password (admin: admin123)" autocomplete="current-password" />
+      </div>
+      
+      <button id="loginBtn" type="button">Login</button>
+
+      <p id="loginError" style="color:#e74c3c; margin-top: 16px;"></p>
+      <p class="small">Admin demo credentials: <code>admin@gmail.com / admin123</code>.</p>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="app" style="display:none;">
+    <nav>
+      <div class="logo">College Events</div>
+      <ul>
+        <li><a href="#" id="navHome">Home</a></li>
+        <li><a href="#" id="navEvents">Events</a></li>
+        <li><a href="#" id="navRegister">Register</a></li>
+        
+        <!-- CONTACT & FEEDBACK (STUDENT ONLY) -->
+        <li id="navContactFeedback" style="display:none"><a href="#" id="navContactFeedbackLink">Contact & Feedback</a></li>
+        
+        <!-- CREATE EVENT (ADMIN ONLY) -->
+        <li id="navCreate" style="display:none"><a href="#" id="navCreateLink">Create Event</a></li>
+
+        <!-- REGISTRATION LIST (ADMIN ONLY) -->
+        <li id="navRegList" style="display:none"><a href="#" id="navRegListLink">Registrations</a></li>
+        
+        <!-- FEEDBACK LIST (ADMIN ONLY) -->
+        <li id="navFeedbackList" style="display:none"><a href="#" id="navFeedbackListLink">Feedback</a></li>
+
+        <li><button id="logoutBtn" class="btn">Logout</button></li>
+      </ul>
+    </nav>
+
+    <section id="homeSection">
+      <!-- HERO TEXT -->
+      <div class="hero">
+        <h1>Smart Event Portal For College</h1>
+        <p style="max-width:760px">Register and participate in exciting college events, workshops, and competitions.</p>
+
+        <!-- EXPLORE EVENTS BUTTON -->
+        <button 
+          onclick="document.getElementById('navEvents').click()" 
+          class="btn-orange"
+          style="padding:14px 28px; font-size:18px; color:#fff; border:none; border-radius:8px; cursor:pointer; box-shadow:0 6px 15px rgba(0,0,0,0.15); font-weight:600;">
+          Explore Events
+        </button>
+      </div>
+    </section>
+
+    <section id="eventsSection" style="display:none">
+      <h2>Upcoming Events</h2>
+      <div class="event-list" id="eventList"></div>
+    </section>
+
+    <section id="registerSection" style="display:none">
+      <h2>Register for an Event</h2>
+      <form id="regForm" style="max-width:640px;margin:20px auto">
+        <div class="form-group">
+          <label class="small">Full name</label>
+          <input id="regName" type="text" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Email</label>
+          <input id="regEmail" type="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Event</label>
+          <input id="regEvent" type="text" readonly required>
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Branch</label>
+          <input id="regBranch" type="text" placeholder="CSE / ECE / MECH ..." required>
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Semester</label>
+          <input id="regSem" type="text" placeholder="1 / 2 / 3 / 4 ..." required>
+        </div>
+        
+        <button class="btn btn-success" type="submit" id="regSubmitBtn">Submit Registration</button>
+        <p id="regMsg" class="small"></p>
+      </form>
+    </section>
+
+    <!-- CONTACT & FEEDBACK SECTION (STUDENT ONLY) -->
+    <section id="contactFeedbackSection" style="display:none">
+      <h2>Contact Us & Feedback</h2>
+      <p>We value your feedback! Please share your experience with our event portal.</p>
+      
+      <div class="contact-info">
+        <div class="contact-card">
+          <h3>Contact Information</h3>
+          <p><strong>Email:</strong> niharikae427@gmail.com</p>
+          <p><strong>Phone:</strong> +91 8618955177</p>
+          <p><strong>Address:</strong> Moodlakatte Institute of Technology, Kundapura</p>
+        </div>
+        
+        <div class="contact-card">
+          <h3>Office Hours</h3>
+          <p><strong>Monday - Friday:</strong> 9:00 AM - 5:00 PM</p>
+          <p><strong>Saturday:</strong> 10:00 AM - 2:00 PM</p>
+          <p><strong>Sunday:</strong> Closed</p>
+        </div>
+      </div>
+      
+      <div class="contact-map">
+        <p>College Campus Map (Interactive map would appear here)</p>
+      </div>
+      
+      <h3 style="margin-top: 40px;">Submit Feedback</h3>
+      <form id="feedbackForm" style="max-width:640px;margin:20px auto">
+        <div class="form-group">
+          <label class="small">Name (optional)</label>
+          <input id="feedbackName" type="text">
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Email (optional)</label>
+          <input id="feedbackEmail" type="email">
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Rating</label>
+          <div id="ratingStars" style="margin: 8px 0;">
+            <span class="star" data-rating="1">★</span>
+            <span class="star" data-rating="2">★</span>
+            <span class="star" data-rating="3">★</span>
+            <span class="star" data-rating="4">★</span>
+            <span class="star" data-rating="5">★</span>
+          </div>
+          <input type="hidden" id="feedbackRating" value="0">
+        </div>
+        
+        <div class="form-group">
+          <label class="small">Your Feedback</label>
+          <textarea id="feedbackText" rows="5" placeholder="Share your thoughts, suggestions, or issues..." required></textarea>
+        </div>
+        
+        <button class="btn" type="submit">Submit Feedback</button>
+        <p id="feedbackMsg" class="small"></p>
+      </form>
+    </section>
+
+    <!-- Admin Create (only visible to admin users) -->
+    <section id="createSection" style="display:none">
+      <h2>Create Event (Admin)</h2>
+      <form id="adminCreateForm" style="max-width:720px;margin:20px auto">
+        <div class="form-group">
+          <input id="adminEventName" type="text" placeholder="Event name" required>
+        </div>
+        
+        <div class="form-group">
+          <textarea id="adminEventDesc" rows="3" placeholder="Description" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <div style="display:flex;gap:12px">
+            <input id="adminEventDate" type="date" required style="flex:1">
+            <input id="adminEventTime" type="time" required style="width:160px">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <input id="adminEventVenue" type="text" placeholder="Venue" required>
+        </div>
+
+        <!-- ADDED SLOTS FIELD -->
+        <div class="form-group">
+          <label class="small">Maximum Slots</label>
+          <input id="adminEventSlots" type="number" min="1" max="500" placeholder="Enter maximum number of participants" required>
+          <p class="small">Set the maximum number of students who can register for this event</p>
+        </div>
+
+        <div class="form-group">
+          <label class="small">Upload image (optional)</label>
+          <input id="adminEventImage" type="file" accept="image/*">
+          <img id="previewImg" alt="Preview">
+        </div>
+
+        <div style="margin-top:20px">
+          <button id="adminAddBtn" class="btn" type="submit">Add Event</button>
+          <span id="adminMsg" class="small" style="margin-left:16px"></span>
+        </div>
+      </form>
+
+      <h3 style="max-width:900px;margin:30px auto 12px">Existing Events (Admin)</h3>
+      <div id="adminEventList" style="max-width:900px;margin:0 auto 40px"></div>
+    </section>
+    
+    <!-- REGISTRATION LIST (ADMIN ONLY) -->
+    <section id="regListSection" style="display:none">
+      <h2>Student Registrations</h2>
+      <div id="regListContainer">
+        <table class="registrations-table">
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Branch</th>
+              <th>Semester</th>
+              <th>Registration Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="regTableBody">
+            <!-- Table rows will be inserted here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <!-- FEEDBACK LIST (ADMIN ONLY) -->
+    <section id="feedbackListSection" style="display:none">
+      <h2>Student Feedback</h2>
+      <div id="feedbackListContainer">
+        <!-- Feedback items will be inserted here by JavaScript -->
+      </div>
+    </section>
+  </div>
+
+<script>
+(function(){
+  // ---------- ELEMENTS ----------
+  const loginPage = document.getElementById('loginPage');
+  const app = document.getElementById('app');
+
+  const roleSelect = document.getElementById('roleSelect');
+  const usernameEl = document.getElementById('username');
+  const passwordEl = document.getElementById('password');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginError = document.getElementById('loginError');
+
+  const navHome = document.getElementById('navHome');
+  const navEvents = document.getElementById('navEvents');
+  const navRegister = document.getElementById('navRegister');
+  const navContactFeedback = document.getElementById('navContactFeedback');
+  const navContactFeedbackLink = document.getElementById('navContactFeedbackLink');
+  const navCreate = document.getElementById('navCreate');
+  const navCreateLink = document.getElementById('navCreateLink');
+  const navRegList = document.getElementById('navRegList');
+  const navRegListLink = document.getElementById('navRegListLink');
+  const navFeedbackList = document.getElementById('navFeedbackList');
+  const navFeedbackListLink = document.getElementById('navFeedbackListLink');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const homeSection = document.getElementById('homeSection');
+  const eventsSection = document.getElementById('eventsSection');
+  const registerSection = document.getElementById('registerSection');
+  const contactFeedbackSection = document.getElementById('contactFeedbackSection');
+  const createSection = document.getElementById('createSection');
+  const regListSection = document.getElementById('regListSection');
+  const feedbackListSection = document.getElementById('feedbackListSection');
+
+  const eventList = document.getElementById('eventList');
+  const regForm = document.getElementById('regForm');
+  const regName = document.getElementById('regName');
+  const regEmail = document.getElementById('regEmail');
+  const regEvent = document.getElementById('regEvent');
+  const regBranch = document.getElementById('regBranch');
+  const regSem = document.getElementById('regSem');
+  const regMsg = document.getElementById('regMsg');
+  const regSubmitBtn = document.getElementById('regSubmitBtn');
+
+  const feedbackForm = document.getElementById('feedbackForm');
+  const feedbackName = document.getElementById('feedbackName');
+  const feedbackEmail = document.getElementById('feedbackEmail');
+  const feedbackText = document.getElementById('feedbackText');
+  const feedbackMsg = document.getElementById('feedbackMsg');
+  const feedbackRating = document.getElementById('feedbackRating');
+  const ratingStars = document.getElementById('ratingStars');
+
+  const adminCreateForm = document.getElementById('adminCreateForm');
+  const adminEventName = document.getElementById('adminEventName');
+  const adminEventDesc = document.getElementById('adminEventDesc');
+  const adminEventDate = document.getElementById('adminEventDate');
+  const adminEventVenue = document.getElementById('adminEventVenue');
+  // ADDED SLOTS ELEMENT
+  const adminEventSlots = document.getElementById('adminEventSlots');
+  const adminEventTime = document.getElementById('adminEventTime');
+  const adminEventImage = document.getElementById('adminEventImage');
+  const previewImg = document.getElementById('previewImg');
+  const adminMsg = document.getElementById('adminMsg');
+  const adminEventList = document.getElementById('adminEventList');
+
+  const regListContainer = document.getElementById('regListContainer');
+  const regTableBody = document.getElementById('regTableBody');
+  const feedbackListContainer = document.getElementById('feedbackListContainer');
+
+  // ---------- STORAGE KEYS ----------
+  const EVENTS_KEY = 'cem_v2_events';
+  const FEEDBACK_KEY = 'cem_v2_feedback';
+
+  // ---------- HELPERS ----------
+  function readEvents(){
+    try { return JSON.parse(localStorage.getItem(EVENTS_KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  
+  function writeEvents(arr){
+    localStorage.setItem(EVENTS_KEY, JSON.stringify(arr));
+  }
+  
+  function readFeedback(){
+    try { return JSON.parse(localStorage.getItem(FEEDBACK_KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  
+  function writeFeedback(arr){
+    localStorage.setItem(FEEDBACK_KEY, JSON.stringify(arr));
+  }
+  
+  function ensureSample(){
+    const arr = readEvents();
+    if (arr.length === 0){
+      writeEvents([
+        { name:'Hackathon 2025', desc:'24 hours of coding', date:'2025-10-25', time:'09:00', venue:'Computer Lab', slots: 50, image:'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80' },
+        { name:'Cultural Fest', desc:'Dance, music & performances', date:'2025-11-10', time:'18:00', venue:'Main Auditorium', slots: 200, image:'https://plus.unsplash.com/premium_photo-1681830630610-9f26c9729b75?fm=jpg&q=60&w=1200' },
+        { name:'Sports Meet', desc:'Athletics and team competitions', date:'2025-12-05', time:'07:30', venue:'College Ground', slots: 100, image:'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=1200&q=80' }
+      ]);
+    }
+    
+    // Add sample feedback if none exists
+    const feedbackArr = readFeedback();
+    if (feedbackArr.length === 0) {
+      writeFeedback([
+        { name: 'John Doe', email: 'john@example.com', text: 'Great platform! Easy to use and register for events.', rating: 5, date: '2023-11-15T10:30:00Z' },
+        { name: 'Jane Smith', email: 'jane@example.com', text: 'Would love to see more technical workshops.', rating: 4, date: '2023-11-10T14:45:00Z' }
+      ]);
+    }
+  }
+  
+  function formatDate(d){
+    if(!d) return '';
+    try { return new Date(d).toLocaleDateString(); } catch { return d; }
+  }
+  
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+
+  // ---------- RENDER ----------
+  function renderEvents(){
+    const arr = readEvents();
+    eventList.innerHTML = '';
+    arr.forEach((ev, idx) => {
+      // Calculate available slots
+      const regKey = 'cem_regs';
+      const regs = JSON.parse(localStorage.getItem(regKey) || '{}');
+      const currentRegistrations = regs[ev.name] ? regs[ev.name].length : 0;
+      const availableSlots = ev.slots - currentRegistrations;
+      const percentageFilled = (currentRegistrations / ev.slots) * 100;
+      
+      // Determine slot bar color
+      let slotBarClass = '';
+      if (percentageFilled >= 90) {
+        slotBarClass = 'danger';
+      } else if (percentageFilled >= 75) {
+        slotBarClass = 'warning';
+      }
+      
+      const div = document.createElement('div');
+      div.className = 'event-card';
+      div.innerHTML = `
+        <img src="${ev.image || ''}" alt="${ev.name}">
+        <div class="card-body">
+          <h3>${escapeHtml(ev.name)}</h3>
+          <p>${escapeHtml(ev.desc)}</p>
+          <p><strong>Venue:</strong> ${escapeHtml(ev.venue || 'Not mentioned')}</p>
+          <p style="font-size:14px;color:#666;">
+            <strong>Date:</strong> ${formatDate(ev.date)} &nbsp; 
+            <strong>Time:</strong> ${ev.time || ''}
+          </p>
+          <div class="slot-indicator">
+            <span class="slot-text">${availableSlots} / ${ev.slots} slots available</span>
+            <div class="slot-bar">
+              <div class="slot-fill ${slotBarClass}" style="width: ${percentageFilled}%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn" data-idx="${idx}" ${availableSlots <= 0 ? 'disabled' : ''}>
+            ${availableSlots <= 0 ? 'Event Full' : 'Register'}
+          </button>
+        </div>
+      `;
+      div.querySelector('button').addEventListener('click', () => {
+        // Check if event is full before allowing registration
+        if (availableSlots <= 0) {
+          regMsg.textContent = '❌ This event is already full. Please choose another event.';
+          regMsg.style.color = '#e74c3c';
+          return;
+        }
+        
+        regEvent.value = ev.name;
+        showSection('register');
+        regMsg.textContent = '';
+      });
+      eventList.appendChild(div);
+    });
+    renderAdminList();
+  }
+  
+  function renderRegList() {
+    const regKey = 'cem_regs';
+    const regs = JSON.parse(localStorage.getItem(regKey) || '{}');
+    
+    // Clear table body
+    regTableBody.innerHTML = '';
+    
+    // Check if there are any registrations
+    let hasRegistrations = false;
+    
+    for (const eventName in regs) {
+      if (regs[eventName].length > 0) {
+        hasRegistrations = true;
+        break;
+      }
+    }
+    
+    if (!hasRegistrations) {
+      regTableBody.innerHTML = `
+        <tr>
+          <td colspan="7" class="no-data">No registrations yet</td>
+        </tr>
+      `;
+      return;
+    }
+    
+    // Add each registration as a table row
+    for (const eventName in regs) {
+      regs[eventName].forEach(registration => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${escapeHtml(eventName)}</td>
+          <td>${escapeHtml(registration.name)}</td>
+          <td>${escapeHtml(registration.email)}</td>
+          <td>${escapeHtml(registration.branch)}</td>
+          <td>${escapeHtml(registration.sem)}</td>
+          <td>${formatDate(registration.at)}</td>
+          <td>
+            <button class="btn btn-danger delete-reg-btn" 
+                    data-event="${escapeHtml(eventName)}" 
+                    data-name="${escapeHtml(registration.name)}"
+                    data-email="${escapeHtml(registration.email)}"
+                    data-branch="${escapeHtml(registration.branch)}"
+                    data-sem="${escapeHtml(registration.sem)}"
+                    data-at="${registration.at}">
+              Delete
+            </button>
+          </td>
+        `;
+        regTableBody.appendChild(row);
+      });
+    }
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.delete-reg-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const eventName = this.getAttribute('data-event');
+        const name = this.getAttribute('data-name');
+        const email = this.getAttribute('data-email');
+        const branch = this.getAttribute('data-branch');
+        const sem = this.getAttribute('data-sem');
+        const at = this.getAttribute('data-at');
+        
+        deleteRegistration(eventName, name, email, branch, sem, at);
+      });
+    });
+  }
+  
+  function renderFeedbackList() {
+    const feedbackArr = readFeedback();
+    feedbackListContainer.innerHTML = '';
+    
+    if (feedbackArr.length === 0) {
+      feedbackListContainer.innerHTML = '<p class="no-data">No feedback submitted yet.</p>';
+      return;
+    }
+    
+    // Sort feedback by date (newest first)
+    feedbackArr.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    feedbackArr.forEach(fb => {
+      const item = document.createElement('div');
+      item.className = 'feedback-item';
+      
+      // Generate star rating display
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        starsHtml += `<span class="star ${i <= fb.rating ? 'filled' : ''}">★</span>`;
+      }
+      
+      item.innerHTML = `
+        <h4>${fb.name || 'Anonymous'}</h4>
+        <div class="feedback-rating">${starsHtml}</div>
+        <p>${escapeHtml(fb.text)}</p>
+        <div class="feedback-meta">
+          ${fb.email ? `Email: ${escapeHtml(fb.email)} • ` : ''}
+          Submitted: ${formatDate(fb.date)}
+        </div>
+      `;
+      feedbackListContainer.appendChild(item);
+    });
+  }
+  
+  function deleteRegistration(eventName, name, email, branch, sem, at) {
+    if (!confirm(`Are you sure you want to delete the registration for ${name} (${email}) for event "${eventName}"?`)) {
+      return;
+    }
+    
+    const regKey = 'cem_regs';
+    const regs = JSON.parse(localStorage.getItem(regKey) || '{}');
+    
+    if (regs[eventName]) {
+      // Find and remove the specific registration
+      regs[eventName] = regs[eventName].filter(reg => 
+        !(reg.name === name && 
+          reg.email === email && 
+          reg.branch === branch && 
+          reg.sem === sem && 
+          reg.at === at)
+      );
+      
+      // If no registrations left for this event, remove the event key
+      if (regs[eventName].length === 0) {
+        delete regs[eventName];
+      }
+      
+      // Save back to localStorage
+      localStorage.setItem(regKey, JSON.stringify(regs));
+      
+      // Re-render the table
+      renderRegList();
+      
+      // Show success message
+      alert(`Successfully deleted registration for ${name}`);
+    }
+  }
+
+  function renderAdminList(){
+    const arr = readEvents();
+    adminEventList.innerHTML = '';
+    arr.forEach((ev, idx) => {
+      // Calculate registration count
+      const regKey = 'cem_regs';
+      const regs = JSON.parse(localStorage.getItem(regKey) || '{}');
+      const currentRegistrations = regs[ev.name] ? regs[ev.name].length : 0;
+      
+      const item = document.createElement('div');
+      item.className = 'admin-item';
+      item.innerHTML = `
+        <img src="${ev.image || ''}" alt="${ev.name}">
+        <div style="flex:1">
+          <strong>${escapeHtml(ev.name)}</strong>
+          <p style="margin:8px 0">${escapeHtml(ev.desc)}</p>
+          <small><strong>Venue:</strong> ${escapeHtml(ev.venue || '')}</small><br>
+          <small>${formatDate(ev.date)} at ${ev.time || ''}</small><br>
+          <small><strong>Slots:</strong> ${currentRegistrations} / ${ev.slots} registered</small>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-danger" data-del="${idx}">Delete</button>
+          <button class="btn" data-edit="${idx}" style="background:var(--secondary-blue)">Edit</button>
+        </div>
+      `;
+      // delete
+      item.querySelector('[data-del]').addEventListener('click', () => {
+        if(!confirm('Delete this event?')) return;
+        const a = readEvents();
+        a.splice(idx,1);
+        writeEvents(a);
+        renderEvents();
+      });
+      // edit (simple inline populate create form and show)
+      item.querySelector('[data-edit]').addEventListener('click', () => {
+        const a = readEvents();
+        const e = a[idx];
+        adminEventName.value = e.name;
+        adminEventDesc.value = e.desc;
+        adminEventDate.value = e.date;
+        adminEventTime.value = e.time;
+        adminEventVenue.value = e.venue || '';
+        adminEventSlots.value = e.slots || 50;
+        previewImg.src = e.image || '';
+        previewImg.style.display = e.image ? 'block' : 'none';
+        // store editing index temporarily on form
+        adminCreateForm.dataset.editIndex = idx;
+        showSection('create');
+      });
+
+      adminEventList.appendChild(item);
+    });
+  }
+
+  // ---------- NAV / SECTIONS ----------
+  function showSection(name){
+    homeSection.style.display = (name==='home') ? 'block' : 'none';
+    eventsSection.style.display = (name==='events') ? 'block' : 'none';
+    registerSection.style.display = (name==='register') ? 'block' : 'none';
+    contactFeedbackSection.style.display = (name==='contactFeedback') ? 'block' : 'none';
+    createSection.style.display = (name==='create') ? 'block' : 'none';
+    regListSection.style.display = (name === 'reglist') ? 'block' : 'none';
+    feedbackListSection.style.display = (name === 'feedbacklist') ? 'block' : 'none';
+  }
+
+  navHome.addEventListener('click', (e)=>{ e.preventDefault(); showSection('home'); });
+  navEvents.addEventListener('click', (e)=>{ e.preventDefault(); showSection('events'); });
+  navRegister.addEventListener('click', (e)=>{ e.preventDefault(); showSection('register'); });
+  navContactFeedbackLink.addEventListener('click', (e)=>{ e.preventDefault(); showSection('contactFeedback'); });
+  navCreateLink.addEventListener('click', (e)=>{ e.preventDefault(); showSection('create'); });
+  navRegListLink.addEventListener('click', (e)=>{ e.preventDefault(); showSection('reglist'); renderRegList(); });
+  navFeedbackListLink.addEventListener('click', (e)=>{ e.preventDefault(); showSection('feedbacklist'); renderFeedbackList(); });
+
+  // ---------- LOGIN ----------
+  loginBtn.addEventListener('click', () => {
+    const role = roleSelect.value;
+    const user = usernameEl.value.trim();
+    const pass = passwordEl.value.trim();
+
+    if(!user || !pass){ loginError.textContent = 'Please fill username and password'; return; }
+
+    if(role === 'admin'){
+      // demo admin: admin@gmail.com / admin123
+      if(user !== 'admin@gmail.com' || pass !== 'admin123'){ loginError.textContent = 'Invalid admin credentials'; return; }
+      localStorage.setItem('cem_role', 'admin');
+    } else {
+      localStorage.setItem('cem_role', 'student');
+    }
+
+    loginError.textContent = '';
+    loginPage.style.display = 'none';
+    app.style.display = 'block';
+
+    const isAdmin = localStorage.getItem('cem_role') === 'admin';
+    // Show admin-only navbar items
+    navCreate.style.display = isAdmin ? '' : 'none';
+    navRegList.style.display = isAdmin ? '' : 'none';
+    navFeedbackList.style.display = isAdmin ? '' : 'none';
+    
+    // Show student-only navbar items
+    navContactFeedback.style.display = isAdmin ? 'none' : '';
+
+    // Default page after login
+    showSection('events');
+    renderEvents();
+  });
+
+  // ---------- LOGOUT ----------
+  logoutBtn.addEventListener('click', ()=> {
+    if(!confirm('Log out?')) return;
+    localStorage.removeItem('cem_role');
+    // clear edit state
+    delete adminCreateForm.dataset.editIndex;
+    location.reload();
+  });
+
+  // ---------- REGISTRATION ----------
+  regForm.addEventListener('submit', (ev)=>{
+    ev.preventDefault();
+    if(!regName.value.trim() || !regEmail.value.trim() || !regEvent.value.trim()){
+      regMsg.textContent = 'Please complete all fields';
+      regMsg.style.color = '#e74c3c';
+      return;
+    }
+    
+    // Check if event is full
+    const events = readEvents();
+    const currentEvent = events.find(e => e.name === regEvent.value);
+    const regKey = 'cem_regs';
+    const regs = JSON.parse(localStorage.getItem(regKey) || '{}');
+    const currentRegistrations = regs[regEvent.value] ? regs[regEvent.value].length : 0;
+    
+    if (currentEvent && currentRegistrations >= currentEvent.slots) {
+      regMsg.textContent = '❌ This event is already full. Please choose another event.';
+      regMsg.style.color = '#e74c3c';
+      return;
+    }
+    
+    // Check if user is already registered for this event
+    if (regs[regEvent.value]) {
+      const existingRegistration = regs[regEvent.value].find(
+        reg => reg.email === regEmail.value.trim()
+      );
+      if (existingRegistration) {
+        regMsg.textContent = '❌ You are already registered for this event with this email.';
+        regMsg.style.color = '#e74c3c';
+        return;
+      }
+    }
+    
+    // store registrations in localStorage under key per event
+    regs[regEvent.value] = regs[regEvent.value] || [];
+    regs[regEvent.value].push({
+      name: regName.value.trim(),
+      email: regEmail.value.trim(),
+      branch: regBranch.value.trim(),
+      sem: regSem.value.trim(),
+      at: new Date().toISOString()
+    });
+    localStorage.setItem(regKey, JSON.stringify(regs));
+
+    regMsg.textContent = `✅ Registered ${regName.value.trim()} for ${regEvent.value.trim()}`;
+    regMsg.style.color = '#2c3e50';
+    regForm.reset();
+    
+    // Update events display
+    renderEvents();
+  });
+
+  // ---------- FEEDBACK ----------
+  // Star rating functionality
+  ratingStars.addEventListener('click', (e) => {
+    if (e.target.classList.contains('star')) {
+      const rating = parseInt(e.target.getAttribute('data-rating'));
+      feedbackRating.value = rating;
+      
+      // Update star display
+      const stars = ratingStars.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('filled');
+        } else {
+          star.classList.remove('filled');
+        }
+      });
+    }
+  });
+
+  feedbackForm.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    
+    if (!feedbackText.value.trim()) {
+      feedbackMsg.textContent = 'Please enter your feedback';
+      feedbackMsg.style.color = '#e74c3c';
+      return;
+    }
+    
+    if (feedbackRating.value === '0') {
+      feedbackMsg.textContent = 'Please select a rating';
+      feedbackMsg.style.color = '#e74c3c';
+      return;
+    }
+    
+    const feedbackArr = readFeedback();
+    const newFeedback = {
+      name: feedbackName.value.trim() || '',
+      email: feedbackEmail.value.trim() || '',
+      text: feedbackText.value.trim(),
+      rating: parseInt(feedbackRating.value),
+      date: new Date().toISOString()
+    };
+    
+    feedbackArr.push(newFeedback);
+    writeFeedback(feedbackArr);
+    
+    feedbackMsg.textContent = '✅ Thank you for your feedback!';
+    feedbackMsg.style.color = '#2c3e50';
+    feedbackForm.reset();
+    
+    // Reset stars
+    const stars = ratingStars.querySelectorAll('.star');
+    stars.forEach(star => {
+      star.classList.remove('filled');
+    });
+    feedbackRating.value = '0';
+  });
+
+  // ---------- ADMIN IMAGE PREVIEW ----------
+  adminEventImage.addEventListener('change', (ev)=>{
+    const f = ev.target.files[0];
+    if(!f){ previewImg.style.display='none'; previewImg.src=''; return; }
+    const reader = new FileReader();
+    reader.onload = function(e){
+      previewImg.src = e.target.result;
+      previewImg.style.display = 'block';
+    };
+    reader.readAsDataURL(f);
+  });
+
+  // ---------- ADMIN CREATE / EDIT ----------
+  adminCreateForm.addEventListener('submit', (ev)=>{
+    ev.preventDefault();
+    adminMsg.textContent = '';
+
+    const name = adminEventName.value.trim();
+    const desc = adminEventDesc.value.trim();
+    const date = adminEventDate.value;
+    const time = adminEventTime.value;
+    const venue = adminEventVenue.value.trim();
+    const slots = parseInt(adminEventSlots.value);
+
+    if(!name || !desc || !date || !time || !venue || !slots){
+      adminMsg.textContent = 'Please fill all fields';
+      adminMsg.style.color = '#e74c3c';
+      return;
+    }
+
+    // helper to finish storing
+    function finishStore(imageData){
+      const arr = readEvents();
+
+      // if editing
+      if(adminCreateForm.dataset.editIndex !== undefined){
+        const idx = parseInt(adminCreateForm.dataset.editIndex,10);
+        arr[idx] = { name, desc, date, time, venue, slots, image: imageData };
+        delete adminCreateForm.dataset.editIndex;
+        adminMsg.textContent = '✅ Event updated';
+      } else {
+        arr.push({ name, desc, date, time, venue, slots, image: imageData });
+        adminMsg.textContent = '✅ Event added';
+      }
+
+      writeEvents(arr);
+      adminMsg.style.color = '#2c3e50';
+      adminCreateForm.reset();
+      previewImg.src=''; previewImg.style.display='none';
+      renderEvents();
+      showSection('events');
+    }
+
+    const file = adminEventImage.files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        finishStore(e.target.result);
+      };
+      reader.onerror = function(){
+        adminMsg.textContent = 'Image read error';
+        adminMsg.style.color = '#e74c3c';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // if no new file but editing, try preserve existing preview image if present
+      const existingImg = previewImg.src || 'https://images.unsplash.com/photo-1533106418989-88406c7cc8bb?auto=format&fit=crop&w=1200&q=80';
+      finishStore(existingImg);
+    }
+  });
+
+  // ---------- STARTUP ----------
+  ensureSample();
+  // set initial visible views
+  loginPage.style.display = 'flex';
+  app.style.display = 'none';
+  // show only home until login
+  showSection('home');
+})();
+</script>
+
+</body>
+</html>
